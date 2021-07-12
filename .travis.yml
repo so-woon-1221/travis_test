@@ -1,0 +1,7 @@
+language: node.js
+node_js:
+  - 14
+
+script:
+  - yarn run build
+  - yarn run start
