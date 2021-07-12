@@ -3,5 +3,4 @@ node_js:
   - 14
 
 script:
-  - yarn run build
-  - yarn run start
+  - yarn run build && yarn run start
