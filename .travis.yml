@@ -10,7 +10,7 @@ services: docker
 
 before_install:
   - docker login -u janus1221 -p wlgns7124!
-  - docker build -t janus1221/next-test-3 -f Dokcerfile .
+  - docker build -t janus1221/next-test-3 -f Dockerfile .
   - docker push janus1221/next-test-3
 
 notifications:
