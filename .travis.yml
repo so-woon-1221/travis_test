@@ -9,7 +9,7 @@ branches:
 services: docker
 
 before_install:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker login -u janus1221 -p wlgns7124!
   - docker build -t janus1221/next-test-3 -f Dokcerfile .
   - docker push janus1221/next-test-3
 
