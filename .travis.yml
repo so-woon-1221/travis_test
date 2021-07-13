@@ -8,10 +8,10 @@ branches:
 
 services: docker
 
-deploy:
-  provider: script
-  script: bash docker-deploy.sh
-  skip_cleanup: true
+before_install:
+  - echo "$DOCKER_PASSWORD" | docker login - u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t janus1221/next-test-3 -f Dokcerfile .
+  - docker push janus1221/next-test-3
 
 notifications:
   email:
