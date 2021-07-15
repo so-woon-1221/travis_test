@@ -118,7 +118,13 @@ const Menu = () => {
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="text-gray-500 py-2 w-full bg-gray-300 rounded-b-lg">
-                        a
+
+                        <div className="flex flex-col items-center justify-center">
+                          <Link href="/menu4">
+                            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                            <a>2-1</a>
+                          </Link>
+                        </div>
                       </Disclosure.Panel>
                     </>
                   )}

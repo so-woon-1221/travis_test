@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "semi": true,
   "useTabs": false,
@@ -5,3 +6,12 @@
   "trailingComma": "all",
   "printWidth": 80
 }
+=======
+{
+  "semi": true,
+  "useTabs": false,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "printWidth": 80
+}
+>>>>>>> 2f970772df76a0ec9e07cc175c39b1fd84a8b865

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 language: node_js
 node_js:
   - 14
@@ -16,4 +17,24 @@ before_install:
 notifications:
   email:
     recipients:
+=======
+language: node_js
+node_js:
+  - 14
+
+branches:
+  only:
+    - main
+
+services: docker
+
+before_install:
+  - docker login -u janus1221 -p wlgns7124!
+  - docker build -t janus1221/next-test-3 -f Dockerfile .
+  - docker push janus1221/next-test-3
+
+notifications:
+  email:
+    recipients:
+>>>>>>> 2f970772df76a0ec9e07cc175c39b1fd84a8b865
       - janus7359@gmail.com

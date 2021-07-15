@@ -5,6 +5,7 @@ import DB1 from "../components/test/DB1";
 import { useSelector } from "../store";
 import DB2 from "../components/test/DB2";
 import DB3 from "../components/test/DB3";
+import DB4 from "../components/test/DB4";
 
 // @ts-ignore
 const TestPage = () => {
@@ -26,6 +27,7 @@ const TestPage = () => {
             {query.id === "menu1" && <DB1 />}
             {query.id === "menu2" && <DB2 />}
             {query.id === "menu3" && <DB3 />}
+            {query.id === "menu4" && <DB4/>}
           </div>
         </div>
       </div>

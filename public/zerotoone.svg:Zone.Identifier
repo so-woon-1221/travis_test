@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 [ZoneTransfer]
 ZoneId=3
 ReferrerUrl=https://cdkm.com/
 HostUrl=https://spock.cdkm.com/convert/file/zk3hi0385fil6qo83femm9b1j73qxfsh/zerotoone.svg
+=======
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://cdkm.com/
+HostUrl=https://spock.cdkm.com/convert/file/zk3hi0385fil6qo83femm9b1j73qxfsh/zerotoone.svg
+>>>>>>> 2f970772df76a0ec9e07cc175c39b1fd84a8b865
