@@ -14,6 +14,8 @@ const DB4 = () => {
   const [age, setAge] = useState(["all"]);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
+  const [newData, setNewData] = useState();
+  const [names, setNames] = useState();
 
   const { status, data, error } = useDB1(gender, age, area, 1, "클렌징");
 
@@ -40,7 +42,6 @@ const DB4 = () => {
     if (wrapper && status === "success" && data) {
       // 데이터 조작 ///////////////////////////////////////////////////////////////////////////////////
       const { newData, names } = getFilteredData(age, gender, area, data);
-      console.log(newData);
       ////
 
       // svg 그리기 ////////////////////////////////////////////////////////////////////////////////////
@@ -53,12 +54,27 @@ const DB4 = () => {
         svg.attr("width", "100%").attr("height", `${height + 100}`);
         svg.append("g").attr("id", "xAxis");
         svg.append("g").attr("id", "yAxis");
-        svg.append("g").attr("id", "chartArea");
         svg
           .append("g")
           .attr("id", "legend")
           .attr("transform", `translate(30,${height - 80})`);
       }
+
+      svg.selectAll(".line").remove();
+
+      const createTooltip = () => {
+        d3.select(wrapper)
+          .append("div")
+          .style("opacity", 1)
+          .attr("class", "tooltip");
+
+        return d3.select(".tooltip");
+      };
+
+      if (!document.querySelector(".tooltip")) {
+        createTooltip();
+      }
+      const tooltip = d3.select(".tooltip");
 
       const legendLinear = legendColor()
         .shapeWidth(names[0].length * 8)
@@ -66,11 +82,21 @@ const DB4 = () => {
         .labels(names)
         .cells(names.length)
         .title("범례")
-        .scale(d3.scaleOrdinal(names, d3.schemeCategory10));
+        .scale(d3.scaleOrdinal(names, d3.schemeTableau10));
 
       // @ts-ignore
       svg.select("#legend").call(legendLinear);
-      document.querySelector(".legendCells")!.classList.add("space-x-4");
+      d3.selectAll(".cell")
+        .style("cursor", "pointer")
+        .on("click", function (e, d) {
+          const data = e.target.__data__.replace(/ /g, "");
+          const clickNode = d3.selectAll(`.a${data}`);
+          clickNode.classed("clickNode", !clickNode.classed("clickNode"));
+          d3.select(this).classed(
+            "clickCell",
+            !d3.select(this).classed("clickCell"),
+          );
+        });
 
       const getDate = (YM: string) => {
         const year = YM.substr(0, 4);
@@ -96,7 +122,7 @@ const DB4 = () => {
         .attr("transform", `translate(0, ${height - 120})`)
         .transition()
         // @ts-ignore
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y'%m")));
       const yAxis = svg
         .select("#yAxis")
         .attr("transform", "translate(80,0)")
@@ -115,20 +141,52 @@ const DB4 = () => {
           return y(d.y);
         });
 
-      // svg.selectAll(".line").remove();
       svg
         .selectAll(".line")
         .data(newData)
         .join("path")
         .attr("fill", "none")
-        .attr("stroke", (d, i) => d3.schemeCategory10[i])
+        .attr("stroke", (d, i) => d3.schemeTableau10[i])
         .attr("stroke-width", 2)
-        .attr("class", "line")
+        .attr("class", (d) => `line a${d.name.replace(/ /g, "")}`)
         .transition()
         // @ts-ignore
         .attr("d", (d) => line(d.data));
-      //////
+
+      svg
+        .selectAll(".dot")
+        .data(newData)
+        .join("g")
+        .attr("class", (d) => `dot a${d.name.replace(/ /g, "")}`)
+        .attr("fill", (d, i) => {
+          return d3.schemeTableau10[i];
+        })
+        .selectAll(".points")
+        .data((d) => d.data)
+        .join("circle")
+        .attr("class", "points")
+        .on("mouseover", function (e, d) {
+          d3.select(this).transition().attr("r", "10");
+          tooltip.style("opacity", 1);
+        })
+        .on("mousemove", (e, d) => {
+          const color = d3.select(e.target.parentNode).attr("fill");
+          tooltip
+            .html(d.y)
+            .style("top", `${d3.pointer(e)[1] + 30}px`)
+            .style("left", `${d3.pointer(e)[0] + 20}px`)
+            .style("background", color);
+        })
+        .on("mouseleave", function (e, d) {
+          d3.select(this).transition().attr("r", 5);
+          tooltip.html("").style("opacity", 0);
+        })
+        .transition()
+        .attr("cx", (d) => x(getDate(d.x)))
+        .attr("cy", (d) => y(+d.y))
+        .attr("r", 5);
     }
+    //////
   }, [status, data, width, height]);
 
   return (
@@ -137,7 +195,7 @@ const DB4 = () => {
       <Area area={area} setArea={setArea} />
       <Age age={age} setAge={setAge} />
       {/*@ts-ignore*/}
-      <div id="wrapper" className="w-full h-96 relative" ref={wrapperRef}>
+      <div id="wrapper" className="w-full h-96 relative px-10" ref={wrapperRef}>
         {status === "loading" && <div>로딩중</div>}
         {status === "success" && data && data?.length > 1 && drawChart()}
         <div className="absolute top-0 left-1/2 hidden" id="loading">
