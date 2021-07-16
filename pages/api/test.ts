@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
-      res.send("aa");
+      res.send("aa.tsx");
     } finally {
       res.send("finish");
     }
