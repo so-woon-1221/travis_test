@@ -14,8 +14,6 @@ const DB4 = () => {
   const [age, setAge] = useState(["all"]);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
-  const [newData, setNewData] = useState();
-  const [names, setNames] = useState();
 
   const { status, data, error } = useDB1(gender, age, area, 1, "클렌징");
 
@@ -89,6 +87,7 @@ const DB4 = () => {
       d3.selectAll(".cell")
         .style("cursor", "pointer")
         .on("click", function (e, d) {
+          // eslint-disable-next-line no-underscore-dangle
           const data = e.target.__data__.replace(/ /g, "");
           const clickNode = d3.selectAll(`.a${data}`);
           clickNode.classed("clickNode", !clickNode.classed("clickNode"));
@@ -113,7 +112,6 @@ const DB4 = () => {
       const min = Number(d3.min(data.map((d) => d.DATA)));
       const y = d3
         .scaleLinear()
-        // @ts-ignore
         .domain([max + max / 20, min - min / 20])
         .range([0, height - 120]);
 
