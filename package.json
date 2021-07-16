@@ -19,6 +19,7 @@
     "cross-env": "^7.0.3",
     "d3": "6",
     "d3-fetch": "^3.0.1",
+    "d3-svg-legend": "^2.25.6",
     "d3-wordcloud": "^0.2.2",
     "html2canvas": "^1.0.0",
     "jspdf": "^2.3.1",
@@ -36,7 +37,8 @@
     "react-redux": "^7.2.4",
     "react-table": "^7.7.0",
     "redux": "^4.1.0",
-    "redux-devtools-extension": "^2.13.9"
+    "redux-devtools-extension": "^2.13.9",
+    "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {
     "@types/d3": "^7.0.0",

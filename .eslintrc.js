@@ -55,6 +55,7 @@ module.exports = {
     "no-plusplus": [2, { allowForLoopAfterthoughts: true }],
     "no-nested-ternary": 0,
     "no-anonymous-default-export": "off",
+    "react-hooks/react-hooks/rules-of-hooks": "off",
   },
   settings: {
     "import/resolver": { node: { extensions: [".js", ".jsx", ".ts", ".tsx"] } },
