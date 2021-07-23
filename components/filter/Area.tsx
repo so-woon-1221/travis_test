@@ -5,12 +5,13 @@ import { onChangeState } from "../../lib/onChangeState";
 interface Props {
   area: Array<string>;
   setArea: ReturnType<ReturnType<SetStateAction<any>>>;
+  isArray: boolean;
 }
-const Area: React.FC<Props> = ({ area, setArea }) => {
+const Area: React.FC<Props> = ({ area, setArea, isArray }) => {
   const areaList = ["all", "서울", "경기", "대구", "광주", "부산"];
 
   const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onChangeState(e, area, setArea);
+    onChangeState(e, area, setArea, isArray);
   };
 
   useEffect(() => {

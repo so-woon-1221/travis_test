@@ -5,11 +5,12 @@ import { onChangeState } from "../../lib/onChangeState";
 interface Props {
   gender: Array<string>;
   setGender: ReturnType<SetStateAction<any>>;
+  isArray: boolean;
 }
 
-const Gender: React.FC<Props> = ({ gender, setGender }) => {
+const Gender: React.FC<Props> = ({ gender, setGender, isArray }) => {
   const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onChangeState(e, gender, setGender);
+    onChangeState(e, gender, setGender, isArray);
   };
 
   useEffect(() => {
@@ -33,7 +34,7 @@ const Gender: React.FC<Props> = ({ gender, setGender }) => {
       <button
         className="hover:text-red-500 rounded py-1.5 px-3"
         type="button"
-        data-value="남성"
+        data-value={isArray ? "남성" : "male"}
         onClick={onClickButton}
       >
         male
@@ -41,7 +42,7 @@ const Gender: React.FC<Props> = ({ gender, setGender }) => {
       <button
         className="hover:bg-gray-200 rounded py-1.5 px-3"
         type="button"
-        data-value="여성"
+        data-value={isArray ? "여성" : "female"}
         onClick={onClickButton}
       >
         female

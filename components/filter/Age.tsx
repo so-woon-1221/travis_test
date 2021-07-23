@@ -5,13 +5,19 @@ import { findButtonAndFill } from "../../lib/findButtonAndFill";
 interface Props {
   age: Array<string>;
   setAge: ReturnType<ReturnType<SetStateAction<any>>>;
+  isArray: boolean;
 }
 
-const Age: React.FC<Props> = ({ age, setAge }) => {
-  const ageList = ["all", "20대", "30대", "40대", "50대"];
+const Age: React.FC<Props> = ({ age, setAge, isArray }) => {
+  let ageList = [];
+  if (isArray) {
+    ageList = ["all", "20대", "30대", "40대", "50대"];
+  } else {
+    ageList = ["all", "20", "30", "40", "50"];
+  }
 
   const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onChangeState(e, age, setAge);
+    onChangeState(e, age, setAge, isArray);
   };
 
   useEffect(() => {

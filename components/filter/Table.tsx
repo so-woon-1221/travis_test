@@ -1,7 +1,7 @@
 import { HeaderGroup, usePagination, useSortBy, useTable } from "react-table";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface tableType {
   columns: columnType[];
@@ -81,6 +81,15 @@ function Table({ columns, data }: tableType) {
     }
   };
 
+  useEffect(() => {
+    setPageSize(5);
+    gotoPage(0);
+  }, []);
+
+  useEffect(() => {
+    gotoPage(1);
+  }, [pageSize]);
+
   // Render the UI for your table
   return (
     <>
@@ -92,7 +101,8 @@ function Table({ columns, data }: tableType) {
                 <th
                   // @ts-ignore
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                  className="border h-16 w-36 relative"
+                  className="border h-10 relative bg-gray-200"
+                  style={{ width: `${columns.length / 100}%` }}
                   key={`header-2${i}`}
                 >
                   {column.render("Header")}
@@ -124,7 +134,7 @@ function Table({ columns, data }: tableType) {
                   return (
                     <td
                       {...cell.getCellProps()}
-                      className="border h-16 w-32"
+                      className="border h-16 text-center"
                       key={`td${i}`}
                     >
                       {cell.render("Cell")}
@@ -140,7 +150,7 @@ function Table({ columns, data }: tableType) {
         Pagination can be built however you'd like.
         This is just a very basic UI implementation:
       */}
-      <div className="pagination">
+      <div className="pagination mt-4">
         <button
           onClick={() => gotoPage(0)}
           type="button"
@@ -194,7 +204,7 @@ function Table({ columns, data }: tableType) {
             setPageSize(Number(e.target.value));
           }}
         >
-          {[5, 10, 20, 30, 40, 50, 200].map((pageSize) => (
+          {[5, 10, 20].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
               Show {pageSize}
             </option>
@@ -205,12 +215,13 @@ function Table({ columns, data }: tableType) {
         <button
           type="button"
           onClick={() => {
-            setPageSize(200);
+            setPageSize(data.length);
+            gotoPage(0);
             printPDF().then(() => {
               setPageSize(pageSize);
             });
           }}
-          className="ring-2 ring-gray-500 px-5 py-2"
+          className="ring-2 ring-gray-500 px-5 py-2 my-4"
         >
           다운로드
         </button>

@@ -1,12 +1,20 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import * as d3 from "d3";
 import { legendColor } from "d3-svg-legend";
+import domtoimage from "dom-to-image";
 import { useDB1 } from "../../hooks/useDB1";
 import Gender from "../filter/Gender";
 import Area from "../filter/Area";
 import Age from "../filter/Age";
 import useResizeObserver from "../../hooks/useResizeObserver";
 import getFilteredData from "../../hooks/getFilteredData";
+import Table from "../filter/Table";
 
 const DB4 = () => {
   const [gender, setGender] = useState(["all"]);
@@ -49,7 +57,10 @@ const DB4 = () => {
       } else {
         svg = d3.select(wrapper).append("svg");
         svg.attr("id", "chart");
-        svg.attr("width", "100%").attr("height", `${height + 100}`);
+        svg
+          .attr("width", "100%")
+          .attr("height", `${height + 10}`)
+          .attr("transform", "translate(0,20)");
         svg.append("g").attr("id", "xAxis");
         svg.append("g").attr("id", "yAxis");
         svg
@@ -63,7 +74,7 @@ const DB4 = () => {
       const createTooltip = () => {
         d3.select(wrapper)
           .append("div")
-          .style("opacity", 1)
+          .style("opacity", 0)
           .attr("class", "tooltip");
 
         return d3.select(".tooltip");
@@ -118,9 +129,9 @@ const DB4 = () => {
       const xAxis = svg
         .select("#xAxis")
         .attr("transform", `translate(0, ${height - 120})`)
-        .transition()
-        // @ts-ignore
-        .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y'%m")));
+        .transition();
+      // @ts-ignore
+      xAxis.call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y' %m")));
       const yAxis = svg
         .select("#yAxis")
         .attr("transform", "translate(80,0)")
@@ -183,22 +194,125 @@ const DB4 = () => {
         .attr("cx", (d) => x(getDate(d.x)))
         .attr("cy", (d) => y(+d.y))
         .attr("r", 5);
+
+      // 줌 //////////////////////////////////////////////////////////////////////////////////////
+      // const updateChart = (e: d3.D3ZoomEvent<any, any>) => {
+      //   const newX = e.transform.rescaleX(x);
+      //   // @ts-ignore
+      //   xAxis.call(d3.axisBottom(newX));
+      // };
+      // const zoom = d3
+      //   .zoom()
+      //   .scaleExtent([1, 10])
+      //   .extent([
+      //     [0, 0],
+      //     [width, height],
+      //   ])
+      //   .on("zoom", updateChart);
+      //
+      // svg.call(zoom);
+      //////
     }
-    //////
   }, [status, data, width, height]);
+
+  const columns = useMemo(() => {
+    return [
+      {
+        Header: "Name",
+        accessor: "NAME",
+      },
+      {
+        Header: "Date",
+        accessor: "YM",
+      },
+      {
+        Header: "Data",
+        accessor: "DATA",
+      },
+    ];
+  }, []);
+
+  // eslint-disable-next-line consistent-return
+  const getTableData = useCallback(() => {
+    if (data && data.length > 1) {
+      const tableData = [];
+      for (let i = 0; i < data.length; i++) {
+        let name = "";
+        if (data[i].SIDO) {
+          name = data[i].SIDO!;
+        }
+        if (data[i].AGE) {
+          name += data[i].AGE;
+        }
+        if (data[i].GENDER) {
+          name += data[i].GENDER;
+        }
+        if (name === "") {
+          name = "구매금액";
+        }
+        tableData.push({ NAME: name, YM: data[i].YM, DATA: data[i].DATA });
+      }
+      console.log(tableData);
+      return tableData;
+    }
+  }, [data]);
+
+  const tableData = useMemo(() => {
+    return getTableData();
+  }, [getTableData]);
+
+  const downloadChart = async () => {
+    const chart = document.querySelector("#chart");
+    if (chart) {
+      const html: d3.BaseType | null = d3
+        .select("#chart")
+        .attr("version", 1.1)
+        .attr("xmlns", "http://www.w3.org/2000/svg")
+        .node();
+
+      domtoimage.toPng(html as HTMLElement).then((data) => {
+        const link = document.createElement("a");
+        link.href = data;
+        link.download = "chart.png";
+        link.click();
+      });
+    }
+  };
 
   return (
     <>
-      <Gender gender={gender} setGender={setGender} />
-      <Area area={area} setArea={setArea} />
-      <Age age={age} setAge={setAge} />
-      {/*@ts-ignore*/}
-      <div id="wrapper" className="w-full h-96 relative px-10" ref={wrapperRef}>
-        {status === "loading" && <div>로딩중</div>}
-        {status === "success" && data && data?.length > 1 && drawChart()}
-        <div className="absolute top-0 left-1/2 hidden" id="loading">
-          로딩 중
-        </div>
+      <Gender gender={gender} setGender={setGender} isArray />
+      <Area area={area} setArea={setArea} isArray />
+      <Age age={age} setAge={setAge} isArray />
+      <div
+        // @ts-ignore
+        ref={wrapperRef}
+        id="wrapper"
+        className="w-full h-96 relative md:px-10"
+      >
+        {status === "success" && data && data?.length > 1 && (
+          <button
+            type="button"
+            className="absolute top-4 right-16 border-2 p-2 border-blue-400"
+            onClick={() => downloadChart()}
+          >
+            다운로드
+          </button>
+        )}
+        {status === "success" && data && data?.length > 1 && drawChart() && (
+          <svg id="chart" />
+        )}
+        {status === "success" && data && data?.length > 1 && (
+          //@ts-ignore
+          <Table columns={columns} data={tableData} />
+        )}
+        {status === "loading" && (
+          <>
+            <div className="absolute top-0 left-1/2" id="loading">
+              로딩 중
+            </div>
+          </>
+        )}
       </div>
     </>
   );

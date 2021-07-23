@@ -47,9 +47,9 @@ const DB1: React.FC = () => {
   return (
     <div className="w-full h-full space-y-10 overflow-hidden">
       <div className="border-b w-full h-40">
-        <Gender gender={gender} setGender={setGender} />
-        <Area area={area} setArea={setArea} />
-        <Age age={age} setAge={setAge} />
+        <Gender gender={gender} setGender={setGender} isArray />
+        <Area area={area} setArea={setArea} isArray />
+        <Age age={age} setAge={setAge} isArray />
       </div>
       {status === "loading" && <div>Loading...</div>}
       {status === "success" && data && data?.length > 1 && (
