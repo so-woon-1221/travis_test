@@ -42,7 +42,7 @@
     <property name="add_unversioned_files" value="$PROJECT_DIR$/.env.local&#10;//wsl$/Ubuntu/home/sowoon/next/metis-test/node_modules/d3/package.json&#10;//wsl$/Ubuntu/home/sowoon/next/metis-test/node_modules/d3/src/index.js&#10;//wsl$/Ubuntu/home/sowoon/next/metis-test/node_modules/d3-array/src/index.js" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="js.linters.configure.manually.selectedeslint" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/hooks" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -63,6 +63,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/hooks" />
     </key>
   </component>
@@ -108,7 +109,7 @@
       <workItem from="1626394814650" duration="2694000" />
       <workItem from="1626414107698" duration="11236000" />
       <workItem from="1626930918268" duration="34000" />
-      <workItem from="1626931074866" duration="6315000" />
+      <workItem from="1626931074866" duration="14510000" />
     </task>
     <servers />
   </component>

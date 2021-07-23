@@ -7,6 +7,7 @@ import DB2 from "../components/test/DB2";
 import DB3 from "../components/test/DB3";
 import DB4 from "../components/test/DB4";
 import DB5 from "../components/test/DB5";
+import DB6 from "../components/test/DB6";
 
 // @ts-ignore
 const TestPage = () => {
@@ -30,6 +31,7 @@ const TestPage = () => {
             {query.id === "menu3" && <DB3 />}
             {query.id === "menu4" && <DB4 />}
             {query.id === "menu5" && <DB5 />}
+            {query.id === "menu6" && <DB6 />}
           </div>
         </div>
       </div>

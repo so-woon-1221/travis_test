@@ -87,6 +87,10 @@ a {
       max-width: 768px;
       @apply mx-auto
     }
+
+    .w-half {
+      width: calc(50% - 1rem);
+    }
   }
 }
 
