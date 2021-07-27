@@ -14,7 +14,9 @@ const GenderChart: React.FC<Props> = ({ data }) => {
 
   useEffect(() => {
     if (dimensions) {
+      // @ts-ignore
       setWidth(dimensions.width);
+      // @ts-ignore
       setHeight(dimensions.height);
     }
   }, [dimensions, height, width]);
@@ -43,6 +45,7 @@ const GenderChart: React.FC<Props> = ({ data }) => {
         .select("#channel-gender-chart-x")
         .attr("transform", `translate(0,${height - 30})`)
         .call(
+          //@ts-ignore
           d3
             .axisBottom(x)
             .tickFormat((d) => `${d}%`)
@@ -51,6 +54,7 @@ const GenderChart: React.FC<Props> = ({ data }) => {
       const yAxis = d3
         .select("#channel-gender-chart-y")
         .attr("transform", "translate(40,0)")
+        //@ts-ignore
         .call(d3.axisLeft(y));
 
       let tooltip:
@@ -88,7 +92,7 @@ const GenderChart: React.FC<Props> = ({ data }) => {
           tooltip.style("opacity", 1);
           tooltip.html(`${Math.round(d[1] - d[0])}%`);
           tooltip.style("left", `${x(d[0]) + (x(d[1]) - x(d[0])) / 2 - 15}px`);
-          tooltip.style("top", `${y(String(d.data.brand)) + 12}px`);
+          tooltip.style("top", `${y(String(d.data.brand))! + 12}px`);
         })
         // @ts-ignore
         .attr("y", (d) => y(d.data.brand))

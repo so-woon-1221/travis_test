@@ -37,12 +37,13 @@ function Table2({ columns, data, size }: tableType) {
         className="table-auto w-full h-full"
       >
         <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
+          {headerGroups.map((headerGroup, i) => (
+            <tr {...headerGroup.getHeaderGroupProps()} key={`head-1-${i}`}>
+              {headerGroup.headers.map((column, j) => (
                 <th
                   {...column.getHeaderProps()}
                   className="border-2 border-black"
+                  key={`head-${i}-${j}`}
                 >
                   {column.render("Header")}
                 </th>
@@ -54,12 +55,13 @@ function Table2({ columns, data, size }: tableType) {
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
+              <tr {...row.getRowProps()} key={`body-1-${i}`}>
+                {row.cells.map((cell, j) => {
                   return (
                     <td
                       {...cell.getCellProps()}
                       className="border border-gray-400"
+                      key={`body-${i}-${j}`}
                     >
                       {cell.render("Cell")}
                     </td>

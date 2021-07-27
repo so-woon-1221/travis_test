@@ -46,7 +46,7 @@ const DB2 = () => {
 
   return (
     <div className="px-4 space-y-4 py-4">
-      <Table columns={columns} data={data} />
+      <Table columns={columns} data={data} canTool size={10} />
     </div>
   );
 };

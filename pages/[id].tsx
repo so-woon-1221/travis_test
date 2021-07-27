@@ -21,7 +21,7 @@ const TestPage = () => {
         <title>{product + query.id}</title>
       </Head>
       <div className="md:w-200 h-full pt-4 md:pl-8 pl-4 pr-4 mx-auto">
-        <div className="min-h-full overflow-y-auto flex flex-col">
+        <div className="min-h-full flex flex-col">
           <h1 className="font-extrabold text-3xl border-b-2 p-2 mb-4">
             {query.id}
           </h1>
