@@ -94,6 +94,7 @@ const DB6: React.FC = () => {
             tempData.push({ YM: year, data: data.length });
           }
         }
+        // @ts-ignore
         tempBar.set(brand, tempData);
       }
       setBarData(tempBar);
