@@ -134,3 +134,7 @@ a {
 .clickCell {
   opacity: 0.5;
 }
+
+.legendCells text {
+  font-size: 10px;
+}

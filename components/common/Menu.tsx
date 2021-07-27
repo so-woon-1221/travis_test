@@ -78,7 +78,7 @@ const Menu = () => {
                           open && "bg-gray-300 rounded-t-lg"
                         }`}
                       >
-                        Menu1
+                        Test
                         <ChevronDownIcon
                           width="1rem"
                           className={`${open && "transform rotate-180"}`}
@@ -111,7 +111,7 @@ const Menu = () => {
                           open && "bg-gray-300 rounded-t-lg"
                         }`}
                       >
-                        Menu2{" "}
+                        D3 차트{" "}
                         <ChevronDownIcon
                           width="1rem"
                           className={`${open && "transform rotate-180"}`}
@@ -140,7 +140,7 @@ const Menu = () => {
                           open && "bg-gray-300 rounded-t-lg"
                         }`}
                       >
-                        Menu3{" "}
+                        서머스플랫폼{" "}
                         <ChevronDownIcon
                           width="1rem"
                           className={`${open && "transform rotate-180"}`}
@@ -150,11 +150,11 @@ const Menu = () => {
                         <div className="flex flex-col items-center justify-center">
                           <Link href="/menu6">
                             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                            <a>3-1</a>
+                            <a>채널분석</a>
                           </Link>
                           <Link href="/menu7">
                             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                            <a>3-2</a>
+                            <a>고객분석</a>
                           </Link>
                         </div>
                       </Disclosure.Panel>
