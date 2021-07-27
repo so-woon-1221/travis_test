@@ -6,6 +6,8 @@ import React, { useEffect } from "react";
 interface tableType {
   columns: columnType[];
   data: dataType[];
+  canTool: boolean;
+  size: number;
 }
 
 interface dataType {
@@ -27,7 +29,7 @@ interface column {
   accessor: string;
 }
 
-function Table({ columns, data }: tableType) {
+function Table({ columns, data, canTool, size }: tableType) {
   const instance = useTable(
     // @ts-ignore
     { columns, data, initialState: { pageIndex: 2 } },
@@ -82,12 +84,15 @@ function Table({ columns, data }: tableType) {
   };
 
   useEffect(() => {
-    setPageSize(5);
+    setPageSize(size);
+  }, []);
+
+  useEffect(() => {
     gotoPage(0);
   }, []);
 
   useEffect(() => {
-    gotoPage(1);
+    gotoPage(0);
   }, [pageSize]);
 
   // Render the UI for your table
@@ -150,82 +155,86 @@ function Table({ columns, data }: tableType) {
         Pagination can be built however you'd like.
         This is just a very basic UI implementation:
       */}
-      <div className="pagination mt-4">
-        <button
-          onClick={() => gotoPage(0)}
-          type="button"
-          disabled={!canPreviousPage}
-        >
-          {"<<"}
-        </button>{" "}
-        <button
-          onClick={() => previousPage()}
-          type="button"
-          disabled={!canPreviousPage}
-        >
-          {"<"}
-        </button>{" "}
-        <button
-          onClick={() => nextPage()}
-          type="button"
-          disabled={!canNextPage}
-        >
-          {">"}
-        </button>{" "}
-        <button
-          onClick={() => gotoPage(pageCount - 1)}
-          type="button"
-          disabled={!canNextPage}
-        >
-          {">>"}
-        </button>{" "}
-        <span>
-          Page{" "}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{" "}
-        </span>
-        <span>
-          | Go to page:{" "}
-          <input
-            type="number"
-            defaultValue={1}
-            className="border-2 border-black"
-            onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              gotoPage(page);
-            }}
-            style={{ width: "100px" }}
-          />
-        </span>{" "}
-        <select
-          value={pageSize}
-          onChange={(e) => {
-            setPageSize(Number(e.target.value));
-          }}
-        >
-          {[5, 10, 20].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <button
-          type="button"
-          onClick={() => {
-            setPageSize(data.length);
-            gotoPage(0);
-            printPDF().then(() => {
-              setPageSize(pageSize);
-            });
-          }}
-          className="ring-2 ring-gray-500 px-5 py-2 my-4"
-        >
-          다운로드
-        </button>
-      </div>
+      {canTool && (
+        <>
+          <div className="pagination mt-4">
+            <button
+              onClick={() => gotoPage(0)}
+              type="button"
+              disabled={!canPreviousPage}
+            >
+              {"<<"}
+            </button>{" "}
+            <button
+              onClick={() => previousPage()}
+              type="button"
+              disabled={!canPreviousPage}
+            >
+              {"<"}
+            </button>{" "}
+            <button
+              onClick={() => nextPage()}
+              type="button"
+              disabled={!canNextPage}
+            >
+              {">"}
+            </button>{" "}
+            <button
+              onClick={() => gotoPage(pageCount - 1)}
+              type="button"
+              disabled={!canNextPage}
+            >
+              {">>"}
+            </button>{" "}
+            <span>
+              Page{" "}
+              <strong>
+                {pageIndex + 1} of {pageOptions.length}
+              </strong>{" "}
+            </span>
+            <span>
+              | Go to page:{" "}
+              <input
+                type="number"
+                defaultValue={1}
+                className="border-2 border-black"
+                onChange={(e) => {
+                  const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                  gotoPage(page);
+                }}
+                style={{ width: "100px" }}
+              />
+            </span>{" "}
+            <select
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+              }}
+            >
+              {[5, 10, 20].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <button
+              type="button"
+              onClick={() => {
+                setPageSize(data.length);
+                gotoPage(0);
+                printPDF().then(() => {
+                  setPageSize(pageSize);
+                });
+              }}
+              className="ring-2 ring-gray-500 px-5 py-2 my-4"
+            >
+              다운로드
+            </button>
+          </div>
+        </>
+      )}
     </>
   );
 }

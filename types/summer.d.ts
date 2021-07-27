@@ -32,3 +32,9 @@ export type Pie = {
   data: number;
   percent: number;
 };
+
+export type Bar = {
+  SMTD_SHOP_NAME: string;
+  YM: number;
+  data: number;
+};

@@ -254,7 +254,7 @@ const DB5: React.FC = () => {
         {status === "success" && data && data.result.recordset.length > 1 && (
           <div className="md:px-6">
             {/*  @ts-ignore*/}
-            <Table columns={column} data={getTableData()} />
+            <Table columns={column} data={getTableData()} canTool size={5} />
           </div>
         )}
         {status === "error" && (

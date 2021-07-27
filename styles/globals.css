@@ -91,6 +91,14 @@ a {
     .w-half {
       width: calc(50% - 1rem);
     }
+
+    .h-full-top {
+      height: calc(100% - 3rem);
+    }
+
+    .h-100 {
+      height: 30rem;
+    }
   }
 }
 

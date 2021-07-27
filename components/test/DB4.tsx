@@ -304,7 +304,7 @@ const DB4 = () => {
         )}
         {status === "success" && data && data?.length > 1 && (
           //@ts-ignore
-          <Table columns={columns} data={tableData} />
+          <Table columns={columns} data={tableData} canTool size={5} />
         )}
         {status === "loading" && (
           <>
